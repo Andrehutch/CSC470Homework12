@@ -1,3 +1,30 @@
+(define env '((a 1) (b 2) (c 5)))
+;resolve a
+(define resolve
+  (lambda (environment varname)
+    (cond
+      ((null? environment) #false)
+      ((equal? (caar environment) varname) (cadar environment))
+      (else (resolve (cdr environment) varname))
+      )
+    )
+  )
+
+
+(define extend-env
+  (lambda (list-of-varname list-of-value env) ;((x y z) (1 2 3) env)
+    (cond
+      ((null? list-of-varname) env)
+      ((null? list-of-value) env)
+      (else (extend-env (cdr list-of-varname) (cdr list-of-value)
+       (cons (list (car list-of-varname)
+                   (car list-of-value))
+             env)))
+      )
+    )
+  )
+
+
 (define neo-parser
   (lambda (neo-code)
     (cond
@@ -33,3 +60,6 @@
       )
     )
   )
+(define sample-code '(call (function () (ask (bool > a b) (math - a b) (math + a b))) (a)))
+(display (neo-parser sample-code))
+(define parsed-neo-code (neo-parser sample-code))
