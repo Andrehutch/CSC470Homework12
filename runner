@@ -90,3 +90,5 @@
       )
     )
   )
+
+(define sample-code '(call (function () (ask (bool > a b) (math - a b) (math + a b))) (a)))
